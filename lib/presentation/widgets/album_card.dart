@@ -22,49 +22,32 @@ class AlbumCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              if (album.thumbnailUrl != null)
-                ClipRRect(
+              SizedBox(
+                width: 80,
+                height: 80,
+                child: album.photos.isNotEmpty
+                    ? ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    album.thumbnailUrl!,
-                    width: 80,
-                    height: 80,
+                    album.photos.first.thumbnailUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        width: 80,
-                        height: 80,
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.errorContainer,
                           borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.image_not_supported_outlined,
-                            color: Theme.of(context).colorScheme.onErrorContainer,
-                            size: 32,
-                          ),
                         ),
                       );
                     },
                   ),
                 )
-              else
-                Container(
-                  width: 80,
-                  height: 80,
+                    : Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.errorContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.image_not_supported_outlined,
-                      color: Theme.of(context).colorScheme.onErrorContainer,
-                      size: 32,
-                    ),
-                  ),
                 ),
+              ),
               const SizedBox(width: 16),
               Expanded(
                 child: Text(

@@ -7,17 +7,32 @@ class AlbumModel {
   final int id;
   final int userId;
   final String title;
-  final String? thumbnailUrl;
-  final String? url;
+  @JsonKey(defaultValue: [])
+  final List<PhotoModel> photos;
 
   AlbumModel({
     required this.id,
     required this.userId,
     required this.title,
-    this.thumbnailUrl,
-    this.url,
-  });
+    List<PhotoModel>? photos,
+  }) : photos = photos ?? [];
 
   factory AlbumModel.fromJson(Map<String, dynamic> json) => _$AlbumModelFromJson(json);
   Map<String, dynamic> toJson() => _$AlbumModelToJson(this);
+}
+
+@JsonSerializable()
+class PhotoModel {
+  final int id;
+  final String url;
+  final String thumbnailUrl;
+
+  PhotoModel({
+    required this.id,
+    required this.url,
+    required this.thumbnailUrl,
+  });
+
+  factory PhotoModel.fromJson(Map<String, dynamic> json) => _$PhotoModelFromJson(json);
+  Map<String, dynamic> toJson() => _$PhotoModelToJson(this);
 }

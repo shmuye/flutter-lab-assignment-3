@@ -65,25 +65,30 @@ class AlbumRepositoryImpl implements AlbumRepository {
         if (photosResponse.statusCode == 200) {
           final List<dynamic> photosJson = json.decode(photosResponse.body);
 
-          // Create a map of albumId to photo
-          final Map<int, Map<String, dynamic>> albumPhotos = {};
+          // Create a map of albumId to photos
+          final Map<int, List<Map<String, dynamic>>> albumPhotos = {};
           for (var photo in photosJson) {
             final albumId = photo['albumId'] as int;
             if (!albumPhotos.containsKey(albumId)) {
-              albumPhotos[albumId] = photo;
+              albumPhotos[albumId] = [];
             }
+            albumPhotos[albumId]!.add(photo);
           }
 
           // Update albums with photo information
-          for (var album in albums) {
-            if (albumPhotos.containsKey(album.id)) {
-              final photo = albumPhotos[album.id]!;
-              album = AlbumModel(
-                id: album.id,
-                userId: album.userId,
-                title: album.title,
-                thumbnailUrl: photo['thumbnailUrl'] as String,
+          for (var i = 0; i < albums.length; i++) {
+            if (albumPhotos.containsKey(albums[i].id)) {
+              final photos = albumPhotos[albums[i].id]!.map((photo) => PhotoModel(
+                id: photo['id'] as int,
                 url: photo['url'] as String,
+                thumbnailUrl: photo['thumbnailUrl'] as String,
+              )).toList();
+
+              albums[i] = AlbumModel(
+                id: albums[i].id,
+                userId: albums[i].userId,
+                title: albums[i].title,
+                photos: photos,
               );
             }
           }

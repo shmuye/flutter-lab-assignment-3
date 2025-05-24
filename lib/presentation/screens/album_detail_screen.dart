@@ -21,7 +21,6 @@ class AlbumDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Album Details'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        centerTitle: true,
       ),
       body: BlocBuilder<AlbumBloc, AlbumState>(
         builder: (context, state) {
@@ -59,13 +58,12 @@ class AlbumDetailScreen extends StatelessWidget {
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     height: 200,
-                    color: Theme.of(context).colorScheme.primaryContainer,
+                    color: Theme.of(context).colorScheme.errorContainer,
                     child: Center(
-                      child: Text(
-                        'Failed to load image',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
+                      child: Icon(
+                        Icons.image_not_supported_outlined,
+                        color: Theme.of(context).colorScheme.onErrorContainer,
+                        size: 64,
                       ),
                     ),
                   );
@@ -85,17 +83,14 @@ class AlbumDetailScreen extends StatelessWidget {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
+                          color: Theme.of(context).colorScheme.errorContainer,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Center(
-                          child: Text(
-                            album.id.toString(),
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: Theme.of(context).colorScheme.onErrorContainer,
+                            size: 24,
                           ),
                         ),
                       ),
